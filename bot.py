@@ -1,14 +1,18 @@
-from aiogram import Bot, types
+import asyncio
+from aiogram import Bot, types, executor
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils.executor import start_webhook
 
 from config import TOKEN
 
-bot = Bot(token=TOKEN)
+
+loop = asyncio.get_event_loop()
+bot = Bot(token=TOKEN, loop=loop)
 dp = Dispatcher(bot)
 
 # webhook settings
-WEBHOOK_HOST = 'https://aiogram-bot.heroku.com'
+# WEBHOOK_HOST = 'https://d48b2f79236a.ngrok.io'
+WEBHOOK_HOST = 'https://aiogram-bot.herokuapp.com/'
 WEBHOOK_PATH = '/'
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 

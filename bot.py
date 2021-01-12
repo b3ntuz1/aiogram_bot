@@ -1,11 +1,11 @@
 from aiogram import Bot, types
-from aiogram.dispatcher import Dispacher
-from aiogram.utils import executor
+from aiogram.dispatcher import Dispatcher
+from aiogram.utils.executor import start_webhook
 
 from config import TOKEN
 
 bot = Bot(token=TOKEN)
-dp = Dispacher(bot)
+dp = Dispatcher(bot)
 
 # webhook settings
 WEBHOOK_HOST = 'https://aiogram-bot.heroku.com'
@@ -16,17 +16,27 @@ WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 WEBAPP_HOST = 'localhost'  # or ip
 WEBAPP_PORT = 3001
 
-@dp.message_handler(command="start")
+@dp.message_handler(commands=["start"])
 async def start_command(message: types.Message):
 	await message.reply("Hello")
 
-@dp.message_handler(command="ping")
+@dp.message_handler(commands=["ping"])
 async def ping_command(message: types.Message):
 	await message.reply("pong")
 
-@dp.message_handler(command="pong")
+@dp.message_handler(commands=["pong"])
 async def ping_command(message: types.Message):
 	await message.reply("ping")
+
+
+async def on_startup(dp):
+    await bot.set_webhook(WEBHOOK_URL)
+    # insert code here to run it after start
+
+
+async def on_shutdown(dp):
+    # insert code here to run it before shutdown
+    pass
 
 if __name__ == "__main__":
 	# executor.start_polling(dp)

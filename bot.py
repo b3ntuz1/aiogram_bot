@@ -41,7 +41,7 @@ async def ping_command(message: types.Message):
 
 async def print_hello():
 	await asyncio.sleep(30)
-	await bot.send_message('-1001311550479', get_apk.rss_parse())
+	await bot.send_message('-1001311550479', get_apk.rss_html())
 
 
 async def on_startup(dp):

@@ -32,4 +32,4 @@ def html_parse():
     root = html.fromstring(xml)
     latest_version = root.xpath('//div/h5/a[@href]')[0]
     text = latest_version.text.replace('Pokémon GO', '').replace(' ', '')
-    
+    return text

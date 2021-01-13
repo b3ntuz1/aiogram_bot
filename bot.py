@@ -2,7 +2,7 @@ import asyncio
 from aiogram import Bot, types, executor
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils.executor import start_webhook
-
+import os
 from config import TOKEN
 
 
@@ -17,8 +17,8 @@ WEBHOOK_PATH = '/aiogram-bot'
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 
 # webserver settings
-WEBAPP_HOST = 'localhost'  # or ip
-WEBAPP_PORT = 33500
+WEBAPP_HOST = '0.0.0.0'
+WEBAPP_PORT = int(os.getenv('PORT'))
 
 @dp.message_handler(commands=["start"])
 async def start_command(message: types.Message):

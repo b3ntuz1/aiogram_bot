@@ -3,7 +3,7 @@ from aiogram import Bot, types, executor
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils.executor import start_webhook
 import os
-from config import TOKEN
+TOKEN = os.getenv("TG_TOKEN")
 
 
 loop = asyncio.get_event_loop()

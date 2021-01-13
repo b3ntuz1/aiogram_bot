@@ -8,20 +8,20 @@ import get_apk
 
 
 loop = asyncio.get_event_loop()
-bot = Bot(token="1012063969:AAHhiUHhptVRDrCMlOSKAxmCIehn49nfRMU", loop=loop)
+bot = Bot(token=os.getenv("TG_TOKEN"), loop=loop)
 dp = Dispatcher(bot)
 
 # webhook settings
-WEBHOOK_HOST = 'https://83f71a7c2b84.ngrok.io'
-# WEBHOOK_HOST = 'https://aiogram-bot.herokuapp.com'
+# WEBHOOK_HOST = 'https://83f71a7c2b84.ngrok.io'
+WEBHOOK_HOST = 'https://aiogram-bot.herokuapp.com'
 WEBHOOK_PATH = '/aiogram-bot'
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 
 # webserver settings
-# WEBAPP_HOST = '0.0.0.0'
-# WEBAPP_PORT = int(os.getenv('PORT'))
-WEBAPP_HOST = 'localhost'
-WEBAPP_PORT = 5000
+WEBAPP_HOST = '0.0.0.0'
+WEBAPP_PORT = int(os.getenv('PORT'))
+# WEBAPP_HOST = 'localhost'
+# WEBAPP_PORT = 5000
 
 
 

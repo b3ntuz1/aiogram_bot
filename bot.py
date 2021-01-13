@@ -12,7 +12,7 @@ dp = Dispatcher(bot)
 
 # webhook settings
 # WEBHOOK_HOST = 'https://d48b2f79236a.ngrok.io'
-WEBHOOK_HOST = 'https://aiogram-bot.herokuapp.com/'
+WEBHOOK_HOST = 'https://aiogram-bot.herokuapp.com'
 WEBHOOK_PATH = '/'
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 

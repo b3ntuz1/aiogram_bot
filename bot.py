@@ -3,22 +3,27 @@ from aiogram import Bot, types, executor
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils.executor import start_webhook
 import os
-TOKEN = os.getenv("TG_TOKEN")
+
+import get_apk
 
 
 loop = asyncio.get_event_loop()
-bot = Bot(token=TOKEN, loop=loop)
+bot = Bot(token="1012063969:AAHhiUHhptVRDrCMlOSKAxmCIehn49nfRMU", loop=loop)
 dp = Dispatcher(bot)
 
 # webhook settings
-# WEBHOOK_HOST = 'https://d48b2f79236a.ngrok.io'
-WEBHOOK_HOST = 'https://aiogram-bot.herokuapp.com'
+WEBHOOK_HOST = 'https://83f71a7c2b84.ngrok.io'
+# WEBHOOK_HOST = 'https://aiogram-bot.herokuapp.com'
 WEBHOOK_PATH = '/aiogram-bot'
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 
 # webserver settings
-WEBAPP_HOST = '0.0.0.0'
-WEBAPP_PORT = int(os.getenv('PORT'))
+# WEBAPP_HOST = '0.0.0.0'
+# WEBAPP_PORT = int(os.getenv('PORT'))
+WEBAPP_HOST = 'localhost'
+WEBAPP_PORT = 5000
+
+
 
 @dp.message_handler(commands=["start"])
 async def start_command(message: types.Message):
@@ -31,6 +36,12 @@ async def ping_command(message: types.Message):
 @dp.message_handler(commands=["pong"])
 async def ping_command(message: types.Message):
 	await message.reply("ping")
+	print(message)
+
+
+async def print_hello():
+	await asyncio.sleep(30)
+	await bot.send_message('-1001311550479', get_apk.rss_parse())
 
 
 async def on_startup(dp):
@@ -44,5 +55,6 @@ async def on_shutdown(dp):
 
 if __name__ == "__main__":
 	# executor.start_polling(dp)
+	loop.create_task(print_hello())
 	start_webhook(dispatcher=dp, webhook_path=WEBHOOK_PATH, on_startup=on_startup, on_shutdown=on_shutdown,
                   skip_updates=True, host=WEBAPP_HOST, port=WEBAPP_PORT)

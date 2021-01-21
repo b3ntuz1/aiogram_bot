@@ -46,6 +46,8 @@ async def post_tweets():
 	twits = tw.getTweets()
 	for t in twits:
 		await bot.send_message('-1001311550479', t)
+	await asyncio.sleep(900)
+	await post_tweets()
 
 
 async def on_startup(dp):

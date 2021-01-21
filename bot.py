@@ -5,6 +5,7 @@ from aiogram.utils.executor import start_webhook
 import os
 
 import get_apk
+import tweepy_app
 
 
 loop = asyncio.get_event_loop()
@@ -24,6 +25,8 @@ WEBAPP_PORT = int(os.getenv('PORT'))
 # WEBAPP_PORT = 5000
 
 
+tw = tweepy_app.Twitor()
+
 
 @dp.message_handler(commands=["start"])
 async def start_command(message: types.Message):
@@ -39,9 +42,10 @@ async def ping_command(message: types.Message):
 	print(message)
 
 
-async def print_hello():
-	await asyncio.sleep(30)
-	await bot.send_message('-1001311550479', get_apk.html_parse())
+async def post_tweets():
+	twits = tw.getTweets()
+	for t in twits:
+		await bot.send_message('-1001311550479', t)
 
 
 async def on_startup(dp):
@@ -55,6 +59,6 @@ async def on_shutdown(dp):
 
 if __name__ == "__main__":
 	# executor.start_polling(dp)
-	loop.create_task(print_hello())
+	loop.create_task(post_tweets())
 	start_webhook(dispatcher=dp, webhook_path=WEBHOOK_PATH, on_startup=on_startup, on_shutdown=on_shutdown,
                   skip_updates=True, host=WEBAPP_HOST, port=WEBAPP_PORT)

@@ -9,6 +9,7 @@ idna==2.10
 lxml==4.6.2
 multidict==5.1.0
 oauthlib==3.1.0
+peewee==3.14.0
 PySocks==1.7.1
 pytz==2020.5
 requests==2.25.1

@@ -1,8 +1,8 @@
 import tweepy
 import json
+from setup_db import KVStorage
 import os.path
 from os import getenv
-
 
 class Twitor:
     def __init__(self):
@@ -15,30 +15,35 @@ class Twitor:
         self.api = tweepy.API(auth)
 
         try:
+            # "Authentication OK"
             self.api.verify_credentials()
-            # print("Authentication OK")
         except:
             print("Error during authentication")
 
     def getTweets(self) -> list:
         tweets = []
-        if os.path.exists("twid.txt"):
-            with open("twid.txt", "r") as fh:
-                self.twid = int(fh.readline())
+        # get tweet id
+        try:
+            kvs = KVStorage.select().where(KVStorage.key=="twitor").get()
+        except KVStorage.DoesNotExist:
+            kvs = KVStorage(key="twitor", value="0")
+        self.twid = int(kvs.value)
 
         # get home timeline
-        users = ["Pokémon GO", "Niantic", "PokeMiners"]
+        users = ["Pokémon GO", "Niantic, Inc.", "PvPoke.com", "Pokémon GO Hub" "CaptGoldfish", "Kelven", "PokeMiners"]
         tl = self.api.home_timeline() if self.twid == 0 else self.api.home_timeline(since_id=self.twid) 
 
         for tweet in tl:
+            # check tweet id and update if needed
             if self.twid < tweet.id:
                 self.twid = tweet.id
-            if (tweet.user.name in users):
-                tweets.append(self.tw_url + tweet.id_str)
+            if (tweet.user.name in users) and ("retweeted_status" not in dir(tweet)):
+                tweets.append(f"{tweet.user.name} tweeted:\n{tweet.text}\n\nsource: {self.tw_url + tweet.id_str}")
 
-        # save max tweet id
-        with open("twid.txt", "w") as fh:
-            fh.write(str(self.twid))
+        # save latests tweet id
+        kvs.value = str(self.twid)
+        kvs.save()
+
         return tweets
 
 if __name__ == "__main__":

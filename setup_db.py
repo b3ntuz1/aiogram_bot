@@ -1,5 +1,6 @@
 # db.py
 import os
+import psycopg2
 from peewee import *
 from playhouse.db_url import connect
 

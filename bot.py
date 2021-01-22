@@ -60,7 +60,7 @@ async def check_apk_update():
 	print("Check latest version...")
 	if text != "":
 		await bot.send_message(chat, text)
-	await asyncio.sleep(120)
+	await asyncio.sleep(7200)
 	await check_apk_update()
 
 ##########################################

@@ -3,6 +3,7 @@ import json
 from setup_db import KVStorage
 import os.path
 from os import getenv
+import json
 
 class Twitor:
     def __init__(self):
@@ -12,11 +13,11 @@ class Twitor:
         auth = tweepy.OAuthHandler(getenv("TWITOR_API_KEY"), getenv("TWITOR_API_KEY_S"))
         auth.set_access_token(getenv("TWITOR_AT"), getenv("TWITOR_ATS"))
 
-        self.api = tweepy.API(auth)
+        self.api = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 
         try:
-            # "Authentication OK"
             self.api.verify_credentials()
+            print("Authentication OK")
         except:
             print("Error during authentication")
 
@@ -30,15 +31,16 @@ class Twitor:
         self.twid = int(kvs.value)
 
         # get home timeline
-        users = ["Pokémon GO", "Niantic, Inc.", "PvPoke.com", "Pokémon GO Hub" "CaptGoldfish", "Kelven", "PokeMiners"]
-        tl = self.api.home_timeline() if self.twid == 0 else self.api.home_timeline(since_id=self.twid) 
+        users = ["Pokémon GO", "Niantic, Inc.", "PvPoke.com", "Pokémon GO Hub", "CaptGoldfish", "Kelven", "PokeMiners"]
+        tl = self.api.home_timeline() if self.twid == 0 else self.api.home_timeline(since_id=self.twid)
 
         for tweet in tl:
             # check tweet id and update if needed
-            if self.twid < tweet.id:
-                self.twid = tweet.id
-            if (tweet.user.name in users) and ("retweeted_status" not in dir(tweet)):
-                tweets.append(f"{tweet.user.name} tweeted:\n{tweet.text}\n\nsource: {self.tw_url + tweet.id_str}")
+            if self.twid < tweet["id"]:
+                self.twid = tweet["id"]
+            if tweet["user"]["name"] in users:
+                if "retweeted_status" not in tweet.keys():
+                    tweets.append(f'{tweet["user"]["name"]} tweeted:\n{tweet["text"]}\n\nsource: {self.tw_url + tweet["id_str"]}')
 
         # save latests tweet id
         kvs.value = str(self.twid)

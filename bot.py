@@ -48,7 +48,7 @@ async def ping_command(message: types.Message):
 
 async def post_tweets():
 	twits = tw.getTweets()
-	print("Posting tweets...")
+	# print("Posting tweets...")
 	for t in twits:
 		await bot.send_message(chat, t)
 	await asyncio.sleep(900)
@@ -57,7 +57,7 @@ async def post_tweets():
 
 async def check_apk_update():
 	text = service_apkmirror.html_parse()
-	print("Check latest version...")
+	# print("Check latest version...")
 	if text != "":
 		await bot.send_message(chat, text)
 	await asyncio.sleep(7200)

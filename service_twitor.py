@@ -31,7 +31,7 @@ class Twitor:
         self.twid = int(kvs.value)
 
         # get home timeline
-        users = ["Pokémon GO", "Niantic, Inc.", "PvPoke.com", "Pokémon GO Hub", "CaptGoldfish", "Kelven", "PokeMiners"]
+        users = ["Pokémon GO", "Niantic, Inc.", "PvPoke.com", "Pokémon GO Hub", "CaptGoldfish", "PokeMiners", "Niantic Support"]
         tl = self.api.home_timeline() if self.twid == 0 else self.api.home_timeline(since_id=self.twid)
 
         for tweet in tl:

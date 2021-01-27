@@ -4,8 +4,8 @@ import psycopg2
 from peewee import *
 from playhouse.db_url import connect
 
-# db = connect(os.environ.get('DATABASE_URL'))
-db = SqliteDatabase("data.db")
+db = connect(os.environ.get('DATABASE_URL'))
+# db = SqliteDatabase("data.db")
 
 class BaseModel(Model):
 	class Meta:

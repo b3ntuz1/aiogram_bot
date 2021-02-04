@@ -31,16 +31,24 @@ class Twitor:
         self.twid = int(kvs.value)
 
         # get home timeline
-        users = ["Pokémon GO", "Niantic, Inc.", "PvPoke.com", "Pokémon GO Hub", "CaptGoldfish", "PokeMiners", "Niantic Support"]
+        users = {
+            "PokemonGoApp": "public", "NianticLabs": "private", "pvpoke": "private",
+            "PokemonGOHubNet": "private", "captgoldfish": "private", "poke_miners": "private", 
+            "NianticHelp": "private", "LeekDuck": "private"
+            }
         tl = self.api.home_timeline() if self.twid == 0 else self.api.home_timeline(since_id=self.twid)
 
         for tweet in tl:
             # check tweet id and update if needed
             if self.twid < tweet["id"]:
                 self.twid = tweet["id"]
-            if tweet["user"]["name"] in users:
+
+            # перевірити у списку користувачів
+            user = tweet["user"]["screen_name"]
+            if user in users.keys():
                 if "retweeted_status" not in tweet.keys():
-                    tweets.append(f'{tweet["user"]["name"]} tweeted:\n{tweet["text"]}\n\nsource: {self.tw_url + tweet["id_str"]}')
+                    post_status = users[user]
+                    tweets.append([f'{tweet["user"]["name"]} tweeted:\n{self.tw_url + tweet["id_str"]}', post_status])
 
         # save latests tweet id
         kvs.value = str(self.twid)

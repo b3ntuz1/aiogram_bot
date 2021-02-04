@@ -11,7 +11,7 @@ import service_twitor
 loop = asyncio.get_event_loop()
 bot = Bot(token=os.getenv("TG_TOKEN"), loop=loop)
 dp = Dispatcher(bot)
-# chat = '-1001311550479'
+privat_chat = '-1001311550479'
 chat = "@pokenews_channel"
 
 # webhook setting
@@ -50,7 +50,10 @@ async def post_tweets():
 	twits = tw.getTweets()
 	# print("Posting tweets...")
 	for t in twits:
-		await bot.send_message(chat, t)
+		if t[1] == "public":
+			await bot.send_message(chat, t[0])
+		else:
+			await bot.send_message(privat_chat, t[0])
 	await asyncio.sleep(900)
 	await post_tweets()
 

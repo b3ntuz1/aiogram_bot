@@ -73,6 +73,7 @@ async def check_rss():
 	if(len(text) > 0):
 		await bot.send_message(privat_chat, text)
 	await asyncio.sleep(21600)
+	await check_rss()
 
 ##########################################
 

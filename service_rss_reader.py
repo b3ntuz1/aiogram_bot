@@ -94,3 +94,7 @@ def main():
     #     with open(f'{now}.txt', 'w') as fh:
     #         fh.write(result)
     return result
+
+# if __name__ == "__main__":
+#     main()
+    

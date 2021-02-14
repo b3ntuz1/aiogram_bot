@@ -6,6 +6,7 @@ import os
 
 import service_apkmirror
 import service_twitor
+import service_rss_reader
 
 
 loop = asyncio.get_event_loop()
@@ -66,6 +67,13 @@ async def check_apk_update():
 	await asyncio.sleep(7200)
 	await check_apk_update()
 
+
+async def ckeck_rss():
+	text = service_rss_reader.main()
+	if(len(text) > 0):
+		await bot.send_message(privat_chat, text)
+	await asyncio.sleep(21600)
+
 ##########################################
 
 async def on_startup(dp):
@@ -80,5 +88,6 @@ async def on_shutdown(dp):
 if __name__ == "__main__":
 	loop.create_task(post_tweets())
 	loop.create_task(check_apk_update())
+	loop.create_task(ckeck_rss())
 	start_webhook(dispatcher=dp, webhook_path=WEBHOOK_PATH, on_startup=on_startup, on_shutdown=on_shutdown,
                   skip_updates=True, host=WEBAPP_HOST, port=WEBAPP_PORT)

@@ -93,4 +93,4 @@ def main():
     # if (len(result) > 0):
     #     with open(f'{now}.txt', 'w') as fh:
     #         fh.write(result)
-        
+    return result

@@ -68,7 +68,7 @@ async def check_apk_update():
 	await check_apk_update()
 
 
-async def ckeck_rss():
+async def check_rss():
 	text = service_rss_reader.main()
 	if(len(text) > 0):
 		await bot.send_message(privat_chat, text)
@@ -88,6 +88,6 @@ async def on_shutdown(dp):
 if __name__ == "__main__":
 	loop.create_task(post_tweets())
 	loop.create_task(check_apk_update())
-	loop.create_task(ckeck_rss())
+	loop.create_task(check_rss())
 	start_webhook(dispatcher=dp, webhook_path=WEBHOOK_PATH, on_startup=on_startup, on_shutdown=on_shutdown,
                   skip_updates=True, host=WEBAPP_HOST, port=WEBAPP_PORT)

@@ -72,10 +72,12 @@ def main():
         "https://ru.ign.com/articles/rss",
         "https://www.gamespot.com/feeds/news",
         "https://hackernoon.com/feed",
+        "https://www.eurogamer.net/?format=rss",
+        "https://pokemongohub.net/feed/",
     ]
 
     result = ""
-    now = datetime.now()
+    now = datetime.utcnow()
 
     for url in rss_chanels:
         data = get_data(url)
@@ -88,13 +90,12 @@ def main():
     kvs.value = int(now.timestamp())
     kvs.save()
 
-    # save result ot txt file
-    # now = str(now.isoformat()).replace(' ', '_')
-    # if (len(result) > 0):
-    #     with open(f'{now}.txt', 'w') as fh:
-    #         fh.write(result)
     return result
 
-# if __name__ == "__main__":
-#     main()
-    
+if __name__ == "__main__":
+    # save result ot txt file
+    now = str(datetime.utcnow().isoformat()).replace(' ', '_')
+    result = main()
+    if (len(result) > 0):
+        with open(f'{now}.txt', 'w') as fh:
+            fh.write(result)

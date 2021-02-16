@@ -55,7 +55,7 @@ async def post_tweets():
 			await bot.send_message(chat, t[0])
 		else:
 			await bot.send_message(privat_chat, t[0])
-	await asyncio.sleep(900)
+	await asyncio.sleep(700)
 	await post_tweets()
 
 
@@ -72,7 +72,7 @@ async def check_rss():
 	text = service_rss_reader.main()
 	if(len(text) > 0):
 		await bot.send_message(privat_chat, text)
-	await asyncio.sleep(21600)
+	await asyncio.sleep(3600)
 	await check_rss()
 
 ##########################################

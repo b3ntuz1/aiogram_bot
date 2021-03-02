@@ -49,3 +49,7 @@ def html_parse():
     if saved_lv < latest_version:
         return f"Latest version is {latest_version_str}.\n\n {base_url + apk.attrib['href']}"
     return ""
+
+
+if __name__ == "__main__":
+    print(html_parse())

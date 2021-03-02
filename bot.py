@@ -7,6 +7,7 @@ import os
 import service_apkmirror
 import service_twitor
 import service_rss_reader
+import service_leekduck
 
 
 loop = asyncio.get_event_loop()
@@ -55,6 +56,13 @@ async def post_tweets():
 			await bot.send_message(chat, t[0])
 		else:
 			await bot.send_message(privat_chat, t[0])
+
+		if t[3] == "LeekDuck":
+			boss = service_leekduck.get_raid_bosses()
+			rsch = service_leekduck.get_research()
+
+			await bot.send_message(chat, boss[0]) if boss[2] else ""
+			await bot.send_message(chat, rsch[0]) if rsch[1] else ""
 	await asyncio.sleep(700)
 	await post_tweets()
 

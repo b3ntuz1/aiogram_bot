@@ -48,7 +48,7 @@ class Twitor:
             if user in users.keys():
                 if "retweeted_status" not in tweet.keys():
                     post_status = users[user]
-                    tweets.append([f'{tweet["user"]["name"]} tweeted:\n{self.tw_url + tweet["id_str"]}', post_status])
+                    tweets.append([f'{tweet["user"]["name"]} tweeted:\n{self.tw_url + tweet["id_str"]}', post_status, user])
 
         # save latests tweet id
         kvs.value = str(self.twid)

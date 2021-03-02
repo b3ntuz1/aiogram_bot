@@ -3,7 +3,7 @@ from setup_db import KVStorage
 import urllib.request
 
 
-headers = headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) \
+headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) \
     AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1'}
 url = "https://leekduck.com"
 
@@ -20,8 +20,10 @@ def _get_image(category):
     root = _get_root(category)
 
     img = root.xpath("*//p[@id='graphic']/img")
-    img = img[0].get('src')
+    if len(img) == 0:
+        return ''
 
+    img = img[0].get('src')
     return(url + img.replace(" ", "%20").replace('../', '/'))
 
 
@@ -49,6 +51,9 @@ def _is_new(img, category):
         kvs = KVStorage.select().where(KVStorage.key==leekduck).get()
     except KVStorage.DoesNotExist:
         kvs = KVStorage(key=leekduck, value="0")
+
+    if img == '':
+        return False
 
     if kvs.value != img:
         kvs.value = img

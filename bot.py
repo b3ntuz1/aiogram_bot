@@ -57,7 +57,7 @@ async def post_tweets():
 		else:
 			await bot.send_message(privat_chat, t[0])
 
-		if t[3] == "LeekDuck":
+		if t[2] == "LeekDuck":
 			boss = service_leekduck.get_raid_bosses()
 			rsch = service_leekduck.get_research()
 

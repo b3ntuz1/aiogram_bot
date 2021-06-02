@@ -69,12 +69,15 @@ def main():
     tags = ["title", "link", "pubdate"]
 
     rss_chanels = [
-        "https://ru.ign.com/articles/rss",
-        "https://www.gamespot.com/feeds/news",
-        "https://hackernoon.com/feed",
-        "https://www.eurogamer.net/?format=rss",
         "https://pokemongohub.net/feed/",
     ]
+    
+#     rss_chanels = [
+#         "https://ru.ign.com/articles/rss",
+#         "https://www.gamespot.com/feeds/news",
+#         "https://hackernoon.com/feed",
+#         "https://www.eurogamer.net/?format=rss",
+#         ]
 
     result = ""
     now = datetime.utcnow()

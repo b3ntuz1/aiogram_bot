@@ -86,8 +86,9 @@ async def check_rss():
 
 	
 async def check_free_games():
-	text = service_epicfreegames.main()
-	await bot.send_message(privat_chat, text)
+	text = service_epicfreegames.service()
+	if(text):
+		await bot.send_message(privat_chat, text)
 	await asyncio.sleep(86400)
 	await check_free_games()
 
@@ -106,5 +107,6 @@ if __name__ == "__main__":
 	loop.create_task(post_tweets())
 	loop.create_task(check_apk_update())
 	loop.create_task(check_rss())
+	loop.create_task(check_free_games())
 	start_webhook(dispatcher=dp, webhook_path=WEBHOOK_PATH, on_startup=on_startup, on_shutdown=on_shutdown,
                   skip_updates=True, host=WEBAPP_HOST, port=WEBAPP_PORT)

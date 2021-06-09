@@ -89,6 +89,7 @@ async def check_free_games():
 	text = service_epicfreegames.service()
 	if(text):
 		await bot.send_message(privat_chat, text)
+	print("check free games: not new")
 	await asyncio.sleep(86400)
 	await check_free_games()
 

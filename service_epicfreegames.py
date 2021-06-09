@@ -32,9 +32,29 @@ def get_games(msg) -> str:
     return result[:-2]
 
 
-def main():
+def main() -> str:
     url = "https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?locale=en-US&country=UA&allowCountries=UA"
     data = get_data(url).json()['data']['Catalog']['searchStore']['elements']
     games = get_games(data)
     return games
- 
+
+
+def service() -> str:
+    from setup_db import KVStorage
+    from hashlib import md5
+    try:
+        kvs = KVStorage.select().where(KVStorage.key=="epicgames").get()
+    except KVStorage.DoesNotExist:
+        kvs = KVStorage(key="epicgames", value="0")
+
+    text = main()
+    digest = md5(text.encode()).hexdigest()
+    if(kvs.value != digest):
+        kvs.value = digest
+        kvs.save()
+        return text
+    return ""
+
+
+if __name__ == "__main__":
+    print(main())

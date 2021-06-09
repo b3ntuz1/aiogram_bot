@@ -8,6 +8,7 @@ import service_apkmirror
 import service_twitor
 import service_rss_reader
 import service_leekduck
+import service_epicfreegames
 
 
 loop = asyncio.get_event_loop()
@@ -82,6 +83,13 @@ async def check_rss():
 		await bot.send_message(privat_chat, text)
 	await asyncio.sleep(3600)
 	await check_rss()
+
+	
+async def check_free_games():
+	text = service_epicfreegames.main()
+	await bot.send_message(privat_chat, text)
+	await asyncio.sleep(86400)
+	await check_free_games()
 
 ##########################################
 

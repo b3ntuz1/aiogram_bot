@@ -68,7 +68,7 @@ class Twitor:
                     post_status = users[user]
                     urlToTweet = str(self.tw_url + tweet["id_str"])
                     text = f'[{tweet["user"]["name"]}]({urlToTweet}) tweeted:\n'
-                    text += tweet.text + "\n"
+                    text += tweet.get('text') + "\n"
                     tweets.append([text, post_status, user])
         self.save_twid(self.twid)
         return tweets

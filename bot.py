@@ -39,7 +39,7 @@ async def start_command(message: types.Message):
 
 @dp.message_handler(commands=["ping"])
 async def ping_command(message: types.Message):
-	print(message)
+	print(message)https://t.co/ywGd96KqJL
 	await message.reply("pong")
 
 @dp.message_handler(commands=["pong"])
@@ -54,9 +54,9 @@ async def post_tweets():
 	# print("Posting tweets...")
 	for t in twits:
 		if t[1] == "public":
-			await bot.send_message(chat, t[0], parse_mode='MarkdownV2')
+			await bot.send_message(chat, t[0], parse_mode=types.ParseMode.MARKDOWN_V2)
 		else:
-			await bot.send_message(privat_chat, t[0], parse_mode='MarkdownV2')
+			await bot.send_message(privat_chat, t[0], parse_mode=types.ParseMode.MARKDOWN_V2)
 
 		if t[2] == "LeekDuck":
 			boss = service_leekduck.get_raid_bosses()
@@ -88,7 +88,7 @@ async def check_rss():
 async def check_free_games():
 	text = service_epicfreegames.service()
 	if(text):
-		await bot.send_message(privat_chat, text, parse_mode='MarkdownV2', disable_web_page_preview=False)
+		await bot.send_message(privat_chat, text, parse_mode=types.ParseMode.MARKDOWN_V2)
 	print("check free games: not new")
 	await asyncio.sleep(86400)
 	await check_free_games()

@@ -52,9 +52,9 @@ async def post_tweets():
 	# print("Posting tweets...")
 	for t in twits:
 		if t[1] == "public":
-			await bot.send_message(chat, t[0], parse_mode=types.ParseMode.MARKDOWN_V2)
+			await bot.send_message(chat, t[0])
 		else:
-			await bot.send_message(privat_chat, t[0], parse_mode=types.ParseMode.MARKDOWN_V2)
+			await bot.send_message(privat_chat, t[0])
 
 		if t[2] == "LeekDuck":
 			boss = service_leekduck.get_raid_bosses()
@@ -86,7 +86,7 @@ async def check_rss():
 async def check_free_games():
 	text = service_epicfreegames.service()
 	if(text):
-		await bot.send_message(privat_chat, text, parse_mode=types.ParseMode.MARKDOWN_V2)
+		await bot.send_message(privat_chat, text)
 	await asyncio.sleep(86400)
 	await check_free_games()
 

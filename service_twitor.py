@@ -75,8 +75,8 @@ class Twitor:
                 if "retweeted_status" not in tweet.keys():
                     post_status = users[user]
                     urlToTweet = str(self.tw_url + tweet["id_str"])
-                    text = f'[{tweet["user"]["name"]}]({urlToTweet}) tweeted:\n'
-                    text += self.purifyMarkdown(tweet.get('text')) + "\n"
+                    text = f'{tweet["user"]["name"]} tweeted:\n'
+                    text += f"{tweet.get('text')}\n{urlToTweet}\n"
                     tweets.append([text, post_status, user])
         self.save_twid(self.twid)
         return tweets

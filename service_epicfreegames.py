@@ -34,7 +34,7 @@ def get_games(msg) -> str:
         url = "https://www.epicgames.com/store/en-US/p/" + item['productSlug']
 
         result += "**" + item['title'] + "**\n"
-        result += purifyMarkdown(get_game_descr(url)) + "\n"
+        result += get_game_descr(url) + "\n"
         result += url + "\n\n"
 
     return result[:-2]

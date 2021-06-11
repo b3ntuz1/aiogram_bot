@@ -18,8 +18,14 @@ def get_game_descr(url) -> str:
     data = html.fromstring(get_data(url).text).cssselect('div.css-pfxkyb')
     if data:
         return data[0].text
-    return f"Description not found. Check {url} manualy."
+    return f"Description not found. Please check manualy."
 
+def purifyMarkdown(text):
+    symbols = "()'*_.+-#{}[]\!"
+    for s in symbols:
+        if s in text:
+            text = text.replace(s, f"\\{s}")
+    return text
 
 def get_games(msg) -> str:
     result = ""
@@ -28,11 +34,10 @@ def get_games(msg) -> str:
         url = "https://www.epicgames.com/store/en-US/p/" + item['productSlug']
 
         result += "**" + item['title'] + "**\n"
-        result += get_game_descr(url) + "\n"
+        result += purifyMarkdown(get_game_descr(url)) + "\n"
         result += url + "\n\n"
 
     return result[:-2]
-
 
 def main() -> str:
     url = "https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?locale=en-US&country=UA&allowCountries=UA"

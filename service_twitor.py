@@ -35,6 +35,14 @@ class Twitor:
         # save latests tweet id
         self.kvs.value = str(self.twid)
         self.kvs.save()
+    
+
+    def purifyMarkdown(self, text):
+        symbols = "()'*_.+-#{}[]\!"
+        for s in symbols:
+            if s in text:
+                text = text.replace(s, f"\\{s}")
+        return text
 
     # REFACTOR:
     # - схлопнути шматок try;except та оновлення twid (передостанні рядки) до окремого методу
@@ -68,7 +76,7 @@ class Twitor:
                     post_status = users[user]
                     urlToTweet = str(self.tw_url + tweet["id_str"])
                     text = f'[{tweet["user"]["name"]}]({urlToTweet}) tweeted:\n'
-                    text += tweet.get('text') + "\n"
+                    text += self.purifyMarkdown(tweet.get('text')) + "\n"
                     tweets.append([text, post_status, user])
         self.save_twid(self.twid)
         return tweets

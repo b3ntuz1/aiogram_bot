@@ -43,7 +43,7 @@ async def ping_command(message: types.Message):
 	await message.reply("pong")
 
 @dp.message_handler(commands=["pong"])
-async def ping_command(message: types.Message):
+async def pong_command(message: types.Message):
 	await message.reply("ping")
 	print(message)
 
@@ -54,9 +54,9 @@ async def post_tweets():
 	# print("Posting tweets...")
 	for t in twits:
 		if t[1] == "public":
-			await bot.send_message(chat, t[0])
+			await bot.send_message(chat, t[0], parse_mode='MarkdownV2')
 		else:
-			await bot.send_message(privat_chat, t[0])
+			await bot.send_message(privat_chat, t[0], parse_mode='MarkdownV2')
 
 		if t[2] == "LeekDuck":
 			boss = service_leekduck.get_raid_bosses()

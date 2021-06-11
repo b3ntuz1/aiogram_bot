@@ -15,8 +15,10 @@ def get_data(url) -> dict:
 
 
 def get_game_descr(url) -> str:
-    data = html.fromstring(get_data(url).text)
-    return data.cssselect('div.css-pfxkyb')[0].text
+    data = html.fromstring(get_data(url).text).cssselect('div.css-pfxkyb')
+    if data:
+        return data[0].text
+    return f"Description not found. Check {url} manualy."
 
 
 def get_games(msg) -> str:

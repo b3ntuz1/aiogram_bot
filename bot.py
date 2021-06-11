@@ -39,13 +39,11 @@ async def start_command(message: types.Message):
 
 @dp.message_handler(commands=["ping"])
 async def ping_command(message: types.Message):
-	print(message)https://t.co/ywGd96KqJL
 	await message.reply("pong")
 
 @dp.message_handler(commands=["pong"])
 async def pong_command(message: types.Message):
 	await message.reply("ping")
-	print(message)
 
 ############### TASKS ####################
 
@@ -89,7 +87,6 @@ async def check_free_games():
 	text = service_epicfreegames.service()
 	if(text):
 		await bot.send_message(privat_chat, text, parse_mode=types.ParseMode.MARKDOWN_V2)
-	print("check free games: not new")
 	await asyncio.sleep(86400)
 	await check_free_games()
 

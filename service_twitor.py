@@ -44,13 +44,6 @@ class Twitor:
                 text = text.replace(s, f"\\{s}")
         return text
 
-    # REFACTOR:
-    # - схлопнути шматок try;except та оновлення twid (передостанні рядки) до окремого методу
-    # - повертати масив словарів у форматі {text: текст відформатований у markdown, img: url до картинки}
-    # - формат одного твіту:
-    #   : [userName](link_to_tweet) tweeted:
-    #   : text or/and image
-    #   : \n
 
     def getTweets(self) -> list:
         tweets = []
@@ -61,8 +54,8 @@ class Twitor:
             "PokemonGOHubNet": "private", "captgoldfish": "private", "poke_miners": "private",
             "NianticHelp": "private", "LeekDuck": "private"
         }
-        tl = self.api.home_timeline() if self.twid == 0 else self.api.home_timeline(
-            since_id=self.twid)
+        tl = self.api.home_timeline(tweet_mode="extended") if self.twid == 0 else self.api.home_timeline(
+            since_id=self.twid, tweet_mode="extended")
 
         for tweet in tl:
             # check tweet id and update if needed
@@ -76,7 +69,7 @@ class Twitor:
                     post_status = users[user]
                     urlToTweet = str(self.tw_url + tweet["id_str"])
                     text = f'{tweet["user"]["name"]} tweeted:\n'
-                    text += f"{tweet.get('text')}\n{urlToTweet}\n"
+                    text += f"{tweet.get('full_text')}\n{urlToTweet}\n"
                     tweets.append([text, post_status, user])
         self.save_twid(self.twid)
         return tweets

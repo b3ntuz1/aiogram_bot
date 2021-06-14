@@ -1,5 +1,4 @@
 from lxml import html
-from os.path import exists
 from setup_db import KVStorage
 import urllib.request
 
@@ -17,7 +16,7 @@ def get_data(url):
 
 def save_to_db(latest_version):
     try:
-        kvs = KVStorage.select().where(KVStorage.key=="apkmirror").get()
+        kvs = KVStorage.select().where(KVStorage.key == "apkmirror").get()
     except KVStorage.DoesNotExist:
         kvs = KVStorage(key="apkmirror", value="0")
 
@@ -27,7 +26,7 @@ def save_to_db(latest_version):
 
 def get_latest_version():
     try:
-        kvs = KVStorage.select().where(KVStorage.key=="apkmirror").get()
+        kvs = KVStorage.select().where(KVStorage.key == "apkmirror").get()
     except KVStorage.DoesNotExist:
         return 0
     return kvs.value

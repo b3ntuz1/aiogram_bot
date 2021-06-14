@@ -45,10 +45,10 @@ def _get_caption(category):
 
 
 def _is_new(img, category):
-    category = category.replace('/','')
+    category = category.replace('/', '')
     leekduck = "leekduck" + "_" + category
     try:
-        kvs = KVStorage.select().where(KVStorage.key==leekduck).get()
+        kvs = KVStorage.select().where(KVStorage.key == leekduck).get()
     except KVStorage.DoesNotExist:
         kvs = KVStorage(key=leekduck, value="0")
 
@@ -69,7 +69,7 @@ def get_raid_bosses():
 
 def get_research():
     img = _get_image('research')
-    return [img , _is_new(img, 'research')]
+    return [img, _is_new(img, 'research')]
 
 
 if __name__ == '__main__':

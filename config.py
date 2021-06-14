@@ -1,3 +1,0 @@
-# config.py
-
-TOKEN = "1012063969:AAHhiUHhptVRDrCMlOSKAxmCIehn49nfRMU"

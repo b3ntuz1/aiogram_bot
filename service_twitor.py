@@ -1,8 +1,5 @@
-import json
 from os import getenv
-
 import tweepy
-
 from setup_db import KVStorage
 
 
@@ -10,10 +7,16 @@ class Twitor:
     def __init__(self):
         self.twid = 0
         self.tw_url = "https://twitter.com/twitter/statuses/"
+
         # Auth
         auth = tweepy.OAuthHandler(
-            getenv("TWITOR_API_KEY"), getenv("TWITOR_API_KEY_S"))
-        auth.set_access_token(getenv("TWITOR_AT"), getenv("TWITOR_ATS"))
+            getenv("TWITOR_API_KEY"),
+            getenv("TWITOR_API_KEY_S")
+        )
+        auth.set_access_token(
+            getenv("TWITOR_AT"),
+            getenv("TWITOR_ATS")
+        )
 
         self.api = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 
@@ -36,13 +39,6 @@ class Twitor:
         self.kvs.value = str(self.twid)
         self.kvs.save()
 
-    def purifyMarkdown(self, text):
-        symbols = r"()'*_.+-#{}[]\!"
-        for s in symbols:
-            if s in text:
-                text = text.replace(s, f"\\{s}")
-        return text
-
     def getTweets(self) -> list:
         tweets = []
 
@@ -63,10 +59,12 @@ class Twitor:
         else:
             tl = self.api.home_timeline(since_id=self.twid, tweet_mode="extended")
 
-        # for debuging purpose
-        with open(f"tweets_{int(datetime.now().timestamp())}.json", "w") as fh:
-            fh.write(json.dumps(tl))
-        ###
+        # # for debuging purpose
+        # import json
+        # from datetime import datetime
+        # with open(f"tweets_{int(datetime.now().timestamp())}.json", "w") as fh:
+        #     fh.write(json.dumps(tl))
+        # ###
 
         for tweet in tl:
             # check tweet id and update if needed
@@ -87,7 +85,6 @@ class Twitor:
 
 
 if __name__ == "__main__":
-    from datetime import datetime
     twitor = Twitor()
     tw = twitor.getTweets()
 

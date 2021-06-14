@@ -1,5 +1,4 @@
 import json
-import os.path
 from os import getenv
 
 import tweepy
@@ -21,8 +20,9 @@ class Twitor:
         try:
             self.api.verify_credentials()
             print("Authentication OK")
-        except:
+        except Exception as e:
             print("Error during authentication")
+            print(e)
 
         # get tweet id
         try:
@@ -35,27 +35,38 @@ class Twitor:
         # save latests tweet id
         self.kvs.value = str(self.twid)
         self.kvs.save()
-    
 
     def purifyMarkdown(self, text):
-        symbols = "()'*_.+-#{}[]\!"
+        symbols = r"()'*_.+-#{}[]\!"
         for s in symbols:
             if s in text:
                 text = text.replace(s, f"\\{s}")
         return text
-
 
     def getTweets(self) -> list:
         tweets = []
 
         # get home timeline
         users = {
-            "PokemonGoApp": "public", "NianticLabs": "private", "pvpoke": "private",
-            "PokemonGOHubNet": "private", "captgoldfish": "private", "poke_miners": "private",
-            "NianticHelp": "private", "LeekDuck": "private"
+            "PokemonGoApp": "public",
+            "NianticLabs": "private",
+            "pvpoke": "private",
+            "PokemonGOHubNet": "private",
+            "captgoldfish": "private",
+            "poke_miners": "private",
+            "NianticHelp": "private",
+            "LeekDuck": "private"
         }
-        tl = self.api.home_timeline(tweet_mode="extended") if self.twid == 0 else self.api.home_timeline(
-            since_id=self.twid, tweet_mode="extended")
+
+        if self.twid == 0:
+            tl = self.api.home_timeline(tweet_mode="extended")
+        else:
+            tl = self.api.home_timeline(since_id=self.twid, tweet_mode="extended")
+
+        # for debuging purpose
+        with open(f"tweets_{int(datetime.now().timestamp())}.json", "w") as fh:
+            fh.write(json.dumps(tl))
+        ###
 
         for tweet in tl:
             # check tweet id and update if needed
@@ -76,39 +87,9 @@ class Twitor:
 
 
 if __name__ == "__main__":
+    from datetime import datetime
     twitor = Twitor()
-    print(twitor.getTweets())
+    tw = twitor.getTweets()
 
-
-# # Auth
-# auth = tweepy.OAuthHandler(API_KEY, API_SECRET)
-# auth.set_access_token(access_token, access_token_secret)
-
-# api = tweepy.API(auth)
-
-# try:
-#     api.verify_credentials()
-#     print("Authentication OK")
-# except:
-#     print("Error during authentication")
-
-# if os.path.exists("twid.txt"):
-#     with open("twid.txt", "r") as fh:
-#         twid = int(fh.readline())
-
-# # get home timeline
-# users = ["Pokémon GO", "Niantic Lab.", "PokeMiners", "Habr"]
-# tl = api.home_timeline(since_id=twid)
-
-# for tweet in tl:
-
-#     if twid < tweet.id:
-#         twid = tweet.id
-
-#     if (tweet.user.name in users):
-#         url = tw_url + tweet.id_str
-#         print(url)
-
-# # save max tweet id
-# with open("twid.txt", "w") as fh:
-#     fh.write(str(twid))
+    for t in tw:
+        print(t)

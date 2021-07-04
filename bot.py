@@ -1,4 +1,5 @@
 import asyncio
+import requests
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils.executor import start_webhook
@@ -63,7 +64,10 @@ async def post_tweets():
             boss = service_leekduck.get_raid_bosses()
             rsch = service_leekduck.get_research()
 
-            await bot.send_message(chat, boss[0]) if boss[2] else ""
+            if boss[2]:
+                requests.post('https://pogotools.pythonanywhere.com/08332471770749258', data=boss[0])
+                await bot.send_message(chat, boss[0])
+
             await bot.send_message(chat, rsch[0]) if rsch[1] else ""
     await asyncio.sleep(700)
     await post_tweets()

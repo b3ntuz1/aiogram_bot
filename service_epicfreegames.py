@@ -4,13 +4,13 @@ from sys import exit
 
 
 def get_data(url) -> dict:
+    headers = {"User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0"}
     try:
-        data = requests.get(url)
+        data = requests.get(url, headers=headers)
         data.raise_for_status()
     except requests.exceptions.HTTPError as e:
         print("ERROR")
         print(e)
-        exit(0)
     return data
 
 
@@ -36,7 +36,7 @@ def get_games(msg) -> str:
 
 
 def main() -> str:
-    url = "https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?locale=en-US&country=UA&allowCountries=UA"
+    url = "https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions"
 
     data = get_data(url).json()['data']['Catalog']['searchStore']['elements']
     games = get_games(data)

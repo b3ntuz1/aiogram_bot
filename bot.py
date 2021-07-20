@@ -3,13 +3,14 @@ import requests
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils.executor import start_webhook
+from datetime import datetime
 import os
 
+from services.epic_free_games import epicfreegames
 import service_apkmirror
 import service_twitor
 import service_rss_reader
 import service_leekduck
-import service_epicfreegames
 
 
 loop = asyncio.get_event_loop()
@@ -91,10 +92,23 @@ async def check_rss():
 
 
 async def check_free_games():
-    text = service_epicfreegames.service()
-    if(text):
-        await bot.send_message(privat_chat, text)
-    await asyncio.sleep(86400)
+    from setup_db import KVStorage
+
+    epic = epicfreegames.EFG()
+    nu = int(epic.next_update().timestamp())
+
+    try:
+        kvs = KVStorage.select().where(KVStorage.key == "epicgames").get()
+    except KVStorage.DoesNotExist:
+        kvs = KVStorage(key="epicgames", value="0")
+
+    if(kvs.value != nu):
+        kvs.value = nu
+        kvs.save()
+        await bot.send_message(privat_chat, epic.get_games())
+
+    slp = nu - datetime.utcnow().timestamp() + 60
+    await asyncio.sleep(int(slp))
     await check_free_games()
 
 ##########################################

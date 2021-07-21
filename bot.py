@@ -93,7 +93,6 @@ async def check_rss():
 
 
 async def check_free_games():
-
     epic = epicfreegames.EFG()
     nu = int(epic.next_update().timestamp())
 

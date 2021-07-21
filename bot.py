@@ -5,6 +5,7 @@ from aiogram.dispatcher import Dispatcher
 from aiogram.utils.executor import start_webhook
 from datetime import datetime
 import os
+from setup_db import KVStorage
 
 from services.epic_free_games import epicfreegames
 import service_apkmirror
@@ -92,7 +93,6 @@ async def check_rss():
 
 
 async def check_free_games():
-    from setup_db import KVStorage
 
     epic = epicfreegames.EFG()
     nu = int(epic.next_update().timestamp())
@@ -105,7 +105,7 @@ async def check_free_games():
     if(kvs.value != nu):
         kvs.value = nu
         kvs.save()
-        await bot.send_message(privat_chat, epic.get_games())
+        await bot.send_message(privat_chat, f"kvs.value = {kvs.value}\nnu = {nu}\n {epic.get_games()}")
 
     slp = nu - datetime.utcnow().timestamp() + 60
     await asyncio.sleep(int(slp))

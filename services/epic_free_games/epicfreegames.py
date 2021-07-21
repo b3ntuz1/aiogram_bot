@@ -25,7 +25,7 @@ class EFG():
                     result.append(f"** {item['title']} **")
                     url = f"https://www.epicgames.com/store/en-US/p/{item['urlSlug']}"
                     result.append(url)
-                    result.append(f"\n{self._get_description(url)}\n")
+                    result.append(f"{self._get_description(url)}\n")
 
         return "\n".join(result)
 

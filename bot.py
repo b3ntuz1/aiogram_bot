@@ -101,10 +101,11 @@ async def check_free_games():
     except KVStorage.DoesNotExist:
         kvs = KVStorage(key="epicgames", value="0")
 
-    if(kvs.value != nu):
+    # явне краще не явного. ймовірно допоможе.
+    if(int(kvs.value) != nu):
         kvs.value = nu
         kvs.save()
-        await bot.send_message(privat_chat, f"kvs.value = {kvs.value}\nnu = {nu}\n {epic.get_games()}")
+        await bot.send_message(privat_chat, f"{epic.get_games()}")
 
     slp = nu - datetime.utcnow().timestamp() + 60
     await asyncio.sleep(int(slp))

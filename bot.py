@@ -104,7 +104,7 @@ async def check_free_games():
     if(kvs.value != nu):
         kvs.value = nu
         kvs.save()
-        await bot.send_message(privat_chat, epic.get_games())
+        await bot.send_message(privat_chat, f"kvs.value = {kvs.value}\nnu = {nu}\n {epic.get_games()}")
 
     slp = nu - datetime.utcnow().timestamp() + 60
     await asyncio.sleep(int(slp))

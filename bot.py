@@ -21,7 +21,7 @@ privat_chat = '-1001311550479'
 chat = "@pokenews_channel"
 
 # webhook setting
-# WEBHOOK_HOST = 'https://9aedfbbb9ab9.ngrok.io'
+# WEBHOOK_HOST = 'https://8d149a639d3e.ngrok.io'
 WEBHOOK_HOST = 'https://aiogram-bot.herokuapp.com'
 WEBHOOK_PATH = '/aiogram-bot'
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
@@ -95,10 +95,12 @@ async def check_apk_update():
             kvs = KVStorage.select().where(KVStorage.key == app_title).get()
         except KVStorage.DoesNotExist:
             kvs = KVStorage(key=app_title, value="0")
+            kvs.save()
 
         version = apk.version().replace(".", "")
-        if(kvs.value < version):
+        if(int(kvs.value) < int(version)):
             kvs.value = version
+            kvs.save()
             await bot.send_message(chat, text)
     await asyncio.sleep(7200)
     await check_apk_update()

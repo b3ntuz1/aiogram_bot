@@ -37,3 +37,9 @@ def test_version(apk):
     string = apk.version()
     ver = re.compile(r"\d\.\d{1,3}\.\d")
     assert len(ver.findall(string)) == 1
+
+
+def test_app_title(apk):
+    apk.parse()
+    app_title = apk.app_title()
+    assert app_title == "Pokémon GO"

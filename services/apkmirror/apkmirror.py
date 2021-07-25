@@ -18,8 +18,9 @@ class ApkMirror:
         self.tree = html.fromstring(data.read())
         return True
 
-    def title(self) -> str:
-        pass
+    def app_title(self) -> str:
+        app_title = self.tree.cssselect('.app-title')[0].text
+        return app_title
 
     def link(self) -> str:
         """ Поверне URL сторінки з якої можна буде завантажити апк """

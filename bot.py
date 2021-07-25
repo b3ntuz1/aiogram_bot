@@ -8,7 +8,7 @@ import os
 from setup_db import KVStorage
 
 from services.epic_free_games import epicfreegames
-import service_apkmirror
+from services.apkmirror import apkmirror
 import service_twitor
 import service_rss_reader
 import service_leekduck
@@ -76,10 +76,22 @@ async def post_tweets():
 
 
 async def check_apk_update():
-    text = service_apkmirror.html_parse()
-    # print("Check latest version...")
-    if text != "":
-        await bot.send_message(chat, text)
+    apps = [
+        "niantic-inc/pokemon-go",
+        "the-pokemon-company/pokemon-home"
+    ]
+
+    for app in apps:
+        apk = apkmirror.ApkMirror(app)
+        apk.parse()
+        text = "".join([
+            f"New #update for {apk.app_title()}\n",
+            f"Update version is {apk.version()}\n",
+            f"Download links:\n-> {apk.link()} <-"
+        ])
+
+        if text != "":
+            await bot.send_message(chat, text)
     await asyncio.sleep(7200)
     await check_apk_update()
 

@@ -90,8 +90,8 @@ async def check_apk_update():
             f"Download links:\n-> {apk.link()} <-"
         ])
 
+        app_title = apk.app_title().replace(" ", "")
         try:
-            app_title = apk.app_title().replace(" ", "")
             kvs = KVStorage.select().where(KVStorage.key == app_title).get()
         except KVStorage.DoesNotExist:
             kvs = KVStorage(key=app_title, value="0")

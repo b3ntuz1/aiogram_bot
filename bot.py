@@ -90,7 +90,15 @@ async def check_apk_update():
             f"Download links:\n-> {apk.link()} <-"
         ])
 
-        if text != "":
+        try:
+            app_title = apk.app_title().replace(" ", "")
+            kvs = KVStorage.select().where(KVStorage.key == app_title).get()
+        except KVStorage.DoesNotExist:
+            kvs = KVStorage(key=app_title, value="0")
+
+        version = apk.version().replace(".", "")
+        if(kvs.value < version):
+            kvs.value = version
             await bot.send_message(chat, text)
     await asyncio.sleep(7200)
     await check_apk_update()

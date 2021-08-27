@@ -22,7 +22,7 @@ class EFG():
             tmp = item['price']['totalPrice']
             if tmp['originalPrice'] == tmp['discount']:
                 if tmp['originalPrice'] != 0:
-                    result.append(f"** {item['title']} **")
+                    result.append(f"**{item['title']}**")
                     url = f"https://www.epicgames.com/store/en-US/p/{item['urlSlug']}"
                     result.append(url)
                     result.append(f"{self._get_description(url)}\n")

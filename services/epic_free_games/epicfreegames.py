@@ -2,6 +2,8 @@ import requests
 import datetime
 from lxml import html
 
+headers = {"User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0"}
+
 
 class EFG():
     def __init__(self):
@@ -23,7 +25,8 @@ class EFG():
             if tmp['originalPrice'] == tmp['discount']:
                 if tmp['originalPrice'] != 0:
                     result.append(f"**{item['title']}**")
-                    url = f"https://www.epicgames.com/store/en-US/p/{item['urlSlug']}"
+                    url = self._get_url(item)
+                    print(f"[get_games] {url}")
                     result.append(url)
                     result.append(f"{self._get_description(url)}\n")
 
@@ -41,7 +44,6 @@ class EFG():
                     return datetime.datetime.fromisoformat(nu)
 
     def _get_description(self, url):
-        headers = {"User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0"}
         try:
             resp = requests.get(url, headers=headers)
             resp.raise_for_status()
@@ -53,3 +55,34 @@ class EFG():
         if data:
             return data[0].text
         return "Description not found. Please check manualy."
+
+    def _get_url(self, item):
+        base = "https://www.epicgames.com/store/en-US/p/"
+        url_slug = base + item['urlSlug']
+        product_slug = base + item['productSlug']
+        print(url_slug, product_slug)
+
+        if url_slug == product_slug:
+            return url_slug
+
+        for i in (item['urlSlug'], item['productSlug']):
+            result = self._probe(base + i, i)
+            if result:
+                return result
+
+    def _probe(self, url, name):
+        resp = requests.get(url, headers=headers)
+        data = html.fromstring(resp.text)
+
+        for probe_url in data.findall('head')[0].findall("link"):
+            print(probe_url.attrib.get('href'))
+            page = probe_url.attrib.get('href')
+            if "not-found" in page:
+                return ''
+            if name in page:
+                return page
+
+
+if __name__ == "__main__":
+    efg = EFG()
+    print(efg.get_games())

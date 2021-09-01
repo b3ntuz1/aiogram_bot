@@ -17,12 +17,12 @@ import service_leekduck
 loop = asyncio.get_event_loop()
 bot = Bot(token=os.getenv("TG_TOKEN"), loop=loop)
 dp = Dispatcher(bot)
-privat_chat = '-1001311550479'
+privat_chat = os.getenv("PRIVAT_CHAT")
 chat = "@pokenews_channel"
 
 # webhook setting
 # WEBHOOK_HOST = 'https://8d149a639d3e.ngrok.io'
-WEBHOOK_HOST = 'https://aiogram-bot.herokuapp.com'
+WEBHOOK_HOST = os.getenv("WEBHOOK_HOST")
 WEBHOOK_PATH = '/aiogram-bot'
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 
@@ -67,7 +67,7 @@ async def post_tweets():
             rsch = service_leekduck.get_research()
 
             if boss[2]:
-                requests.post('https://pogotools.pythonanywhere.com/08332471770749258', data=boss[0])
+                requests.post(os.getenv("PKMGO_BOT"), data=boss[0])
                 await bot.send_message(chat, boss[0])
 
             await bot.send_message(chat, rsch[0]) if rsch[1] else ""

@@ -78,7 +78,8 @@ async def post_tweets():
 async def check_apk_update():
     apps = [
         "niantic-inc/pokemon-go",
-        "the-pokemon-company/pokemon-home"
+        "the-pokemon-company/pokemon-home",
+        "the-pokemon-company/pokemon-unite"
     ]
 
     for app in apps:

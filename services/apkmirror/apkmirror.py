@@ -29,7 +29,7 @@ class ApkMirror:
 
     def version(self) -> str:
         """ Остання версія проекту """
-        element = self.tree.cssselect('.infoslide-value')[0].text
+        element = self.tree.cssselect('.infoSlide-value')[0].text
         return element.replace(' ', '')
 
     def whats_new(self) -> str:

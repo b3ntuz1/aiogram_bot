@@ -44,9 +44,9 @@ class Twitor:
 
         # get home timeline
         users = {
-            "PokemonGoApp": "public",
+            "ElChicoEevee": "private",
+            "PokemonUnite": "private",
             "NianticLabs": "private",
-            "pvpoke": "private",
             "PokemonGOHubNet": "private",
             "captgoldfish": "private",
             "poke_miners": "private",

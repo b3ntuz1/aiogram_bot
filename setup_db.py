@@ -1,11 +1,16 @@
 import os
 import psycopg2
 from peewee import Model, CharField, TextField, DateTimeField
-# from peewee import SqliteDatabase
-from playhouse.db_url import connect
+from pathlib import Path
 
-db = connect(os.environ.get('DATABASE_URL'))
-# db = SqliteDatabase("data.db")
+
+# налаштування коректного підключення до бд
+if Path('develop.txt'):
+    from peewee import SqliteDatabase
+    db = connect(os.environ.get('DATABASE_URL'))
+else:
+    from playhouse.db_url import connect
+    db = SqliteDatabase("data.db")
 
 
 class BaseModel(Model):

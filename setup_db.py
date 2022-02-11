@@ -1,7 +1,7 @@
 import os
 import psycopg2
 from peewee import Model, CharField, TextField, DateTimeField
-
+from pathlib import Path
 
 # налаштування коректного підключення до бд
 if Path('develop.txt'):
